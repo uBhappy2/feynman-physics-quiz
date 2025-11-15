@@ -23,273 +23,76 @@ const FeynmanPhysicsGame = () => {
   const [showFeedback, setShowFeedback] = useState(false);
   const [difficulty, setDifficulty] = useState('medium');
   const [playerName, setPlayerName] = useState('');
-  const [badges, setBadges] = useState([]);
-  const [totalAnswered, setTotalAnswered] = useState(0);
-
-  const badgeDefinitions = [
-    { id: 'first_correct', name: 'First Steps', icon: '🎯', description: 'Answer your first question correctly' },
-    { id: 'streak_5', name: 'On Fire!', icon: '🔥', description: 'Get 5 correct answers in a row' },
-    { id: 'streak_10', name: 'Unstoppable', icon: '⚡', description: 'Get 10 correct answers in a row' },
-    { id: 'questions_10', name: 'Curious Mind', icon: '🧠', description: 'Answer 10 questions' },
-    { id: 'questions_25', name: 'Knowledge Seeker', icon: '📚', description: 'Answer 25 questions' },
-    { id: 'questions_50', name: 'Physics Scholar', icon: '🎓', description: 'Answer 50 questions' }
-  ];
 
   const questions = [
-      // MECHANICS - EASY (15 questions)
-    { id: 1, difficulty: 'easy', category: 'Mechanics', question: "According to Newton's First Law, an object at rest will remain at rest unless acted upon by what?", answers: ['An unbalanced force', 'Gravity', 'Friction', 'Inertia'], correct: 0, explanation: "Newton's First Law states that an object at rest stays at rest and an object in motion stays in motion with the same speed and direction unless acted upon by an unbalanced force.", learnMore: 'https://www.feynmanlectures.caltech.edu/I_09.html', image: '🚀' },
-    { id: 2, difficulty: 'easy', category: 'Mechanics', question: 'What is the SI unit of force?', answers: ['Joule', 'Newton', 'Watt', 'Pascal'], correct: 1, explanation: 'The Newton (N) is the SI unit of force, named after Isaac Newton.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_09.html', image: '⚖️' },
-    { id: 3, difficulty: 'easy', category: 'Mechanics', question: 'What does the equation F = ma represent?', answers: ['Newton\'s First Law', 'Newton\'s Second Law', 'Newton\'s Third Law', 'Law of Conservation of Energy'], correct: 1, explanation: 'F = ma is Newton\'s Second Law, stating that force equals mass times acceleration.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_09.html', image: '📐' },
-    { id: 4, difficulty: 'easy', category: 'Energy', question: 'Energy cannot be created or destroyed, only transformed. This is known as what?', answers: ['Theory of Relativity', 'Conservation of Energy', 'Thermodynamics', 'Quantum Mechanics'], correct: 1, explanation: 'The Law of Conservation of Energy is a fundamental principle.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_04.html', image: '⚡' },
-    { id: 5, difficulty: 'easy', category: 'Motion', question: 'If you drop two balls of different masses from the same height (ignoring air resistance), which hits the ground first?', answers: ['The heavier ball', 'The lighter ball', 'They hit at the same time', 'Depends on their shape'], correct: 2, explanation: 'In the absence of air resistance, all objects fall at the same rate regardless of mass.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_09.html', image: '🌍' },
-    
-    // MECHANICS - MEDIUM (10 questions)
-    { id: 6, difficulty: 'medium', category: 'Mechanics', question: 'A car travels at constant velocity. What can you conclude about the net force acting on it?', answers: ['Net force is in the direction of motion', 'Net force is zero', 'Net force equals the car\'s weight', 'Net force varies with speed'], correct: 1, explanation: 'By Newton\'s First Law, if velocity is constant (no acceleration), the net force must be zero.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_09.html', image: '🚗' },
-    { id: 7, difficulty: 'medium', category: 'Mechanics', question: 'What is the relationship between momentum (p), mass (m), and velocity (v)?', answers: ['p = m + v', 'p = m / v', 'p = m × v', 'p = m - v'], correct: 2, explanation: 'Momentum is defined as mass times velocity (p = mv).', learnMore: 'https://www.feynmanlectures.caltech.edu/I_09.html', image: '💨' },
-    { id: 8, difficulty: 'medium', category: 'Energy', question: 'A pendulum swings back and forth. At the highest point of its swing, what type of energy is maximized?', answers: ['Kinetic energy', 'Potential energy', 'Thermal energy', 'Chemical energy'], correct: 1, explanation: 'At the highest point, the pendulum momentarily stops (minimum kinetic energy) and is at maximum height (maximum potential energy).', learnMore: 'https://www.feynmanlectures.caltech.edu/I_04.html', image: '⏰' },
-    { id: 9, difficulty: 'medium', category: 'Mechanics', question: 'If you push a box with force F and it moves with constant velocity, what is the magnitude of friction force?', answers: ['Greater than F', 'Less than F', 'Equal to F', 'Zero'], correct: 2, explanation: 'At constant velocity, acceleration is zero, so net force is zero. Therefore, friction must exactly balance your applied force F.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_09.html', image: '📦' },
-    { id: 10, difficulty: 'medium', category: 'Rotation', question: 'What quantity is conserved when no external torque acts on a system?', answers: ['Linear momentum', 'Angular momentum', 'Kinetic energy', 'Potential energy'], correct: 1, explanation: 'Angular momentum is conserved in the absence of external torques.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_18.html', image: '🌀' },
-    
-    // MECHANICS - HARD (10 questions)
-    { id: 11, difficulty: 'hard', category: 'Mechanics', question: 'In a perfectly elastic collision between two objects, which quantities are conserved?', answers: ['Only momentum', 'Only kinetic energy', 'Both momentum and kinetic energy', 'Neither momentum nor kinetic energy'], correct: 2, explanation: 'In a perfectly elastic collision, both momentum and kinetic energy are conserved.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_10.html', image: '💥' },
-    { id: 12, difficulty: 'hard', category: 'Mechanics', question: 'For an object in uniform circular motion, what is the direction of acceleration?', answers: ['Tangent to the circle', 'Toward the center', 'Away from the center', 'Along the velocity vector'], correct: 1, explanation: 'In uniform circular motion, acceleration is centripetal (toward the center).', learnMore: 'https://www.feynmanlectures.caltech.edu/I_09.html', image: '⭕' },
-    { id: 13, difficulty: 'hard', category: 'Energy', question: 'Work done by a force depends on what component of the force?', answers: ['Total force magnitude', 'Component perpendicular to displacement', 'Component parallel to displacement', 'Component at 45 degrees to displacement'], correct: 2, explanation: 'Work is defined as W = F·d = Fd cos(θ), where θ is the angle between force and displacement. Only the parallel component does work.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_13.html', image: '🔨' },
-    { id: 14, difficulty: 'hard', category: 'Mechanics', question: 'The center of mass of a system moves as if all external forces acted on what?', answers: ['The largest mass', 'The geometric center', 'The total mass concentrated at the center of mass', 'Each individual mass separately'], correct: 2, explanation: 'The center of mass theorem states that the center of mass moves as if all the mass were concentrated there and all external forces acted there.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_19.html', image: '🎯' },
-    { id: 15, difficulty: 'hard', category: 'Rotation', question: 'How does moment of inertia depend on the axis of rotation?', answers: ['Independent of axis', 'Minimum about center of mass', 'Depends on mass distribution relative to axis', 'Always equals mr²'], correct: 2, explanation: 'Moment of inertia depends on how mass is distributed relative to the axis.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_18.html', image: '🔄' },
-    
-    // WAVES - EASY (5 questions)
-    { id: 16, difficulty: 'easy', category: 'Waves', question: 'What is the relationship between wavelength, frequency, and wave speed?', answers: ['v = λ / f', 'v = λ × f', 'v = λ + f', 'v = λ - f'], correct: 1, explanation: 'The wave equation v = λf relates wave speed, wavelength, and frequency.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_47.html', image: '🌊' },
-    { id: 17, difficulty: 'easy', category: 'Waves', question: 'Sound waves require what to propagate?', answers: ['A vacuum', 'A medium', 'Electricity', 'Magnetism'], correct: 1, explanation: 'Sound waves are mechanical waves that require a medium to propagate.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_47.html', image: '🔊' },
-    { id: 18, difficulty: 'easy', category: 'Light', question: 'What is the speed of light in vacuum?', answers: ['3 × 10⁸ m/s', '3 × 10⁶ m/s', '3 × 10¹⁰ m/s', '3 × 10⁴ m/s'], correct: 0, explanation: 'The speed of light in vacuum is approximately 3 × 10⁸ m/s.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_26.html', image: '💡' },
-    { id: 19, difficulty: 'easy', category: 'Waves', question: 'What happens when two waves meet and their crests align?', answers: ['Destructive interference', 'Constructive interference', 'Reflection', 'Refraction'], correct: 1, explanation: 'When wave crests align, they add together in constructive interference.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_47.html', image: '➕' },
-    { id: 20, difficulty: 'easy', category: 'Sound', question: 'What determines the pitch of a sound?', answers: ['Amplitude', 'Frequency', 'Wavelength', 'Speed'], correct: 1, explanation: 'Pitch is determined by frequency.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_47.html', image: '🎵' },
-    
-    // WAVES - MEDIUM (5 questions)
-    { id: 21, difficulty: 'medium', category: 'Waves', question: 'What phenomenon causes a straw to appear bent when placed in water?', answers: ['Reflection', 'Diffraction', 'Refraction', 'Interference'], correct: 2, explanation: 'Refraction is the bending of light as it passes from one medium to another.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_26.html', image: '🥤' },
-    { id: 22, difficulty: 'medium', category: 'Waves', question: 'Standing waves are formed by the interference of two waves traveling in what directions?', answers: ['Same direction', 'Opposite directions', 'Perpendicular directions', 'Random directions'], correct: 1, explanation: 'Standing waves form when two waves of the same frequency travel in opposite directions.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_49.html', image: '🎸' },
-    { id: 23, difficulty: 'medium', category: 'Sound', question: 'The Doppler effect describes the change in what property of a wave?', answers: ['Amplitude', 'Speed', 'Frequency', 'Phase'], correct: 2, explanation: 'The Doppler effect is the change in observed frequency due to relative motion.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_47.html', image: '🚑' },
-    { id: 24, difficulty: 'medium', category: 'Light', question: 'What causes the colorful patterns in soap bubbles?', answers: ['Absorption', 'Thin-film interference', 'Polarization', 'Scattering'], correct: 1, explanation: 'Thin-film interference occurs when light reflects from both surfaces of the soap film.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_26.html', image: '🫧' },
-    { id: 25, difficulty: 'medium', category: 'Waves', question: 'What is the period of a wave with frequency 50 Hz?', answers: ['0.02 seconds', '0.2 seconds', '2 seconds', '20 seconds'], correct: 0, explanation: 'Period T = 1/f. For f = 50 Hz, T = 1/50 = 0.02 seconds.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_47.html', image: '⏱️' },
-    
-    { id: 26, difficulty: 'hard', category: 'Waves', question: 'In diffraction, what happens to the spreading of waves as they pass through a smaller opening?', answers: ['Decreases', 'Increases', 'Remains constant', 'Depends on wave speed'], correct: 1, explanation: 'Smaller openings cause greater diffraction (spreading).', learnMore: 'https://www.feynmanlectures.caltech.edu/I_30.html', image: '🚪' },
-    { id: 27, difficulty: 'hard', category: 'Light', question: 'What is the principle behind the operation of polarizing sunglasses?', answers: ['They absorb all light', 'They reflect horizontal light waves', 'They block randomly polarized light', 'They transmit only vertically polarized light'], correct: 3, explanation: 'Polarizing sunglasses block horizontally polarized light while transmitting vertically polarized light.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_33.html', image: '👓' },
-    { id: 28, difficulty: 'hard', category: 'Waves', question: 'For a wave on a string, what happens to wave speed if tension increases?', answers: ['Decreases', 'Remains constant', 'Increases', 'Becomes zero'], correct: 2, explanation: 'Wave speed on a string is proportional to the square root of tension.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_47.html', image: '🎻' },
-    { id: 29, difficulty: 'hard', category: 'Sound', question: 'When a source of sound moves faster than the speed of sound, what forms?', answers: ['A standing wave', 'A shock wave (sonic boom)', 'An echo', 'A resonance'], correct: 1, explanation: 'When a source exceeds the speed of sound, it creates a shock wave or sonic boom.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_51.html', image: '✈️' },
-    { id: 30, difficulty: 'hard', category: 'Waves', question: 'In a resonant system, what occurs at resonant frequencies?', answers: ['Minimum amplitude', 'Maximum energy dissipation', 'Maximum amplitude oscillation', 'Phase reversal'], correct: 2, explanation: 'At resonant frequencies, a system oscillates with maximum amplitude.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_23.html', image: '🔔' },
-    { id: 31, difficulty: 'easy', category: 'E&M', question: 'Like charges do what to each other?', answers: ['Attract', 'Repel', 'Have no effect', 'Neutralize'], correct: 1, explanation: 'Like charges (both positive or both negative) repel each other.', learnMore: 'https://www.feynmanlectures.caltech.edu/II_01.html', image: '⚡' },
-    { id: 32, difficulty: 'easy', category: 'E&M', question: 'What is the SI unit of electric charge?', answers: ['Ampere', 'Volt', 'Coulomb', 'Ohm'], correct: 2, explanation: 'The Coulomb (C) is the SI unit of electric charge.', learnMore: 'https://www.feynmanlectures.caltech.edu/II_01.html', image: '🔋' },
-    { id: 33, difficulty: 'easy', category: 'E&M', question: 'What creates a magnetic field?', answers: ['Stationary charges', 'Moving charges', 'Neutral particles', 'Photons'], correct: 1, explanation: 'Magnetic fields are created by moving electric charges (currents).', learnMore: 'https://www.feynmanlectures.caltech.edu/II_13.html', image: '🧲' },
-    { id: 34, difficulty: 'easy', category: 'E&M', question: 'What does Ohm\'s Law relate?', answers: ['Voltage, current, and resistance', 'Power, energy, and time', 'Charge, field, and force', 'Frequency, wavelength, and speed'], correct: 0, explanation: 'Ohm\'s Law states V = IR, relating voltage (V), current (I), and resistance (R).', learnMore: 'https://www.feynmanlectures.caltech.edu/II_22.html', image: '💡' },
-    { id: 35, difficulty: 'easy', category: 'E&M', question: 'In a series circuit, what is the same throughout?', answers: ['Voltage', 'Current', 'Resistance', 'Power'], correct: 1, explanation: 'In a series circuit, the same current flows through all components.', learnMore: 'https://www.feynmanlectures.caltech.edu/II_22.html', image: '🔌' },
-    { id: 36, difficulty: 'medium', category: 'E&M', question: 'What phenomenon is described by Faraday\'s Law?', answers: ['Electrostatic attraction', 'Electromagnetic induction', 'Magnetic domains', 'Photoelectric effect'], correct: 1, explanation: 'Faraday\'s Law describes electromagnetic induction.', learnMore: 'https://www.feynmanlectures.caltech.edu/II_16.html', image: '⚙️' },
-    { id: 37, difficulty: 'medium', category: 'E&M', question: 'The force on a charge q moving with velocity v in a magnetic field B is perpendicular to what?', answers: ['Only to v', 'Only to B', 'To both v and B', 'To neither'], correct: 2, explanation: 'The magnetic force is perpendicular to both velocity and magnetic field.', learnMore: 'https://www.feynmanlectures.caltech.edu/II_13.html', image: '➡️' },
-    { id: 38, difficulty: 'medium', category: 'E&M', question: 'What happens to resistance of most conductors as temperature increases?', answers: ['Decreases', 'Increases', 'Remains constant', 'Becomes zero'], correct: 1, explanation: 'For most conductors, resistance increases with temperature.', learnMore: 'https://www.feynmanlectures.caltech.edu/II_22.html', image: '🌡️' },
-    { id: 39, difficulty: 'medium', category: 'E&M', question: 'In a parallel circuit, what is the same across all branches?', answers: ['Current', 'Resistance', 'Voltage', 'Power'], correct: 2, explanation: 'In a parallel circuit, voltage is the same across all branches.', learnMore: 'https://www.feynmanlectures.caltech.edu/II_22.html', image: '🔀' },
-    { id: 40, difficulty: 'medium', category: 'E&M', question: 'What device uses electromagnetic induction to change AC voltage levels?', answers: ['Capacitor', 'Resistor', 'Transformer', 'Diode'], correct: 2, explanation: 'A transformer uses electromagnetic induction between coils to change AC voltage.', learnMore: 'https://www.feynmanlectures.caltech.edu/II_16.html', image: '🔄' },
-    { id: 41, difficulty: 'hard', category: 'E&M', question: 'What is the physical significance of Gauss\'s Law?', answers: ['Relates electric field to charge distribution', 'Describes magnetic monopoles', 'Explains inductance', 'Defines capacitance'], correct: 0, explanation: 'Gauss\'s Law relates electric flux through a closed surface to the enclosed charge.', learnMore: 'https://www.feynmanlectures.caltech.edu/II_04.html', image: '📐' },
-    { id: 42, difficulty: 'hard', category: 'E&M', question: 'What does Maxwell\'s addition to Ampere\'s Law account for?', answers: ['Magnetic monopoles', 'Displacement current', 'Superconductivity', 'Quantum effects'], correct: 1, explanation: 'Maxwell added displacement current term to Ampere\'s Law.', learnMore: 'https://www.feynmanlectures.caltech.edu/II_18.html', image: '🌐' },
-    { id: 43, difficulty: 'hard', category: 'E&M', question: 'A charged particle in crossed electric and magnetic fields can move with constant velocity if what condition is met?', answers: ['E = B', 'E = vB', 'E > vB', 'E < vB'], correct: 1, explanation: 'When E = vB, electric and magnetic forces balance.', learnMore: 'https://www.feynmanlectures.caltech.edu/II_13.html', image: '⚖️' },
-    { id: 44, difficulty: 'hard', category: 'E&M', question: 'What is the energy stored in a capacitor with capacitance C and voltage V?', answers: ['U = CV', 'U = CV²', 'U = ½CV²', 'U = ½CV'], correct: 2, explanation: 'The energy stored in a capacitor is U = ½CV².', learnMore: 'https://www.feynmanlectures.caltech.edu/II_08.html', image: '⚡' },
-    { id: 45, difficulty: 'hard', category: 'E&M', question: 'The self-inductance of a coil depends on what?', answers: ['Current only', 'Voltage only', 'Geometry and number of turns', 'Resistance'], correct: 2, explanation: 'Self-inductance depends on the coil\'s geometry and number of turns.', learnMore: 'https://www.feynmanlectures.caltech.edu/II_17.html', image: '🔄' },
-    { id: 46, difficulty: 'easy', category: 'Thermodynamics', question: 'Temperature is a measure of what?', answers: ['Total energy', 'Average kinetic energy', 'Potential energy', 'Heat capacity'], correct: 1, explanation: 'Temperature measures the average kinetic energy of particles.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_39.html', image: '🌡️' },
-    { id: 47, difficulty: 'easy', category: 'Thermodynamics', question: 'What is absolute zero?', answers: ['0°C', '0°F', '0 K', '0 J'], correct: 2, explanation: 'Absolute zero (0 Kelvin or -273.15°C) is the theoretical temperature where particles have minimum possible kinetic energy.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_39.html', image: '❄️' },
-    { id: 48, difficulty: 'easy', category: 'Thermodynamics', question: 'Heat flows naturally from what to what?', answers: ['Cold to hot', 'Hot to cold', 'Low pressure to high pressure', 'High density to low density'], correct: 1, explanation: 'The Second Law of Thermodynamics states heat flows naturally from higher to lower temperature.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_44.html', image: '🔥' },
-    { id: 49, difficulty: 'easy', category: 'Thermodynamics', question: 'What is the first law of thermodynamics essentially a statement of?', answers: ['Energy conservation', 'Entropy increase', 'Temperature equilibrium', 'Pressure-volume relationship'], correct: 0, explanation: 'The First Law is essentially conservation of energy.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_44.html', image: '⚖️' },
-    { id: 50, difficulty: 'easy', category: 'Thermodynamics', question: 'What are the three common methods of heat transfer?', answers: ['Radiation, convection, conduction', 'Fusion, fission, decay', 'Melting, boiling, sublimation', 'Expansion, compression, equilibrium'], correct: 0, explanation: 'Heat transfers by conduction (direct contact), convection (fluid motion), and radiation (electromagnetic waves).', learnMore: 'https://www.feynmanlectures.caltech.edu/I_40.html', image: '🌊' },
-    
-      // THERMODYNAMICS - MEDIUM (5 questions)
-    { id: 51, difficulty: 'medium', category: 'Thermodynamics', question: 'In an isothermal process, what remains constant?', answers: ['Pressure', 'Volume', 'Temperature', 'Entropy'], correct: 2, explanation: 'In an isothermal process, temperature stays constant.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_39.html', image: '📊' },
-    { id: 52, difficulty: 'medium', category: 'Thermodynamics', question: 'What does entropy measure?', answers: ['Energy', 'Temperature', 'Disorder or randomness', 'Pressure'], correct: 2, explanation: 'Entropy is a measure of disorder or randomness in a system.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_44.html', image: '🎲' },
-    { id: 53, difficulty: 'medium', category: 'Thermodynamics', question: 'For an ideal gas undergoing adiabatic compression, what happens to its temperature?', answers: ['Decreases', 'Stays constant', 'Increases', 'Becomes zero'], correct: 2, explanation: 'In adiabatic compression (no heat transfer), work done on gas increases internal energy, raising temperature.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_39.html', image: '🔼' },
-    { id: 54, difficulty: 'medium', category: 'Thermodynamics', question: 'The Carnot cycle represents what kind of engine?', answers: ['Most practical', 'Least efficient', 'Theoretically most efficient', 'Fastest operating'], correct: 2, explanation: 'The Carnot cycle represents the most efficient possible heat engine.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_44.html', image: '🔄' },
-    { id: 55, difficulty: 'medium', category: 'Thermodynamics', question: 'What is specific heat capacity?', answers: ['Heat per unit volume', 'Heat per unit mass per degree', 'Total heat content', 'Heat transfer rate'], correct: 1, explanation: 'Specific heat capacity is the heat required to raise one unit of mass by one degree temperature.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_40.html', image: '🔥' },
-    
-    // THERMODYNAMICS - HARD (5 questions)
-    { id: 56, difficulty: 'hard', category: 'Thermodynamics', question: 'What is the maximum efficiency of a Carnot engine operating between hot and cold temperatures?', answers: ['Always 100%', 'Depends on temperature difference', 'Always 50%', 'Depends on fuel type'], correct: 1, explanation: 'Carnot efficiency depends on the temperature difference and is less than 100%.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_44.html', image: '🏭' },
-    { id: 57, difficulty: 'hard', category: 'Thermodynamics', question: 'In a reversible adiabatic process for an ideal gas, what relationship holds?', answers: ['PV = constant', 'PV with exponent = constant', 'P/V = constant', 'PV² = constant'], correct: 1, explanation: 'For reversible adiabatic processes, pressure and volume follow a power law relationship.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_39.html', image: '📐' },
-    { id: 58, difficulty: 'hard', category: 'Thermodynamics', question: 'The Boltzmann factor represents what?', answers: ['Total energy', 'Average energy', 'Relative probability of state', 'Entropy'], correct: 2, explanation: 'The Boltzmann factor gives relative probability of finding a system in a state with given energy.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_40.html', image: '📊' },
-    { id: 59, difficulty: 'hard', category: 'Thermodynamics', question: 'The third law of thermodynamics states what about entropy at absolute zero?', answers: ['Entropy is infinite', 'Entropy is maximum', 'Entropy approaches zero', 'Entropy is undefined'], correct: 2, explanation: 'The third law states that entropy of a perfect crystal approaches zero as temperature approaches absolute zero.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_44.html', image: '❄️' },
-    { id: 60, difficulty: 'hard', category: 'Thermodynamics', question: 'What is the significance of the partition function in statistical mechanics?', answers: ['It equals total energy', 'It determines all thermodynamic properties', 'It measures entropy directly', 'It counts particles'], correct: 1, explanation: 'The partition function is central to statistical mechanics; all thermodynamic properties can be derived from it.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_40.html', image: '🔢' },
-    
-    // QUANTUM MECHANICS - EASY (5 questions)
-    { id: 61, difficulty: 'easy', category: 'Quantum', question: 'Who proposed that light consists of discrete packets of energy called quanta?', answers: ['Newton', 'Einstein', 'Planck', 'Bohr'], correct: 2, explanation: 'Max Planck proposed quantum theory in 1900.', learnMore: 'https://www.feynmanlectures.caltech.edu/III_01.html', image: '💡' },
-    { id: 62, difficulty: 'easy', category: 'Quantum', question: 'What is the name for a quantum of light?', answers: ['Electron', 'Proton', 'Photon', 'Neutron'], correct: 2, explanation: 'A photon is a quantum (discrete packet) of electromagnetic energy.', learnMore: 'https://www.feynmanlectures.caltech.edu/III_01.html', image: '✨' },
-    { id: 63, difficulty: 'easy', category: 'Quantum', question: 'The energy of a photon is proportional to what?', answers: ['Wavelength', 'Frequency', 'Speed', 'Amplitude'], correct: 1, explanation: 'Photon energy is proportional to frequency.', learnMore: 'https://www.feynmanlectures.caltech.edu/III_01.html', image: '🌈' },
-    { id: 64, difficulty: 'easy', category: 'Quantum', question: 'What is the uncertainty principle fundamentally about?', answers: ['Measurement errors', 'Fundamental limits on knowledge', 'Observer effects', 'Equipment limitations'], correct: 1, explanation: 'The uncertainty principle is a fundamental property of nature.', learnMore: 'https://www.feynmanlectures.caltech.edu/III_02.html', image: '❓' },
-    { id: 65, difficulty: 'easy', category: 'Quantum', question: 'Matter can exhibit properties of both what?', answers: ['Solid and liquid', 'Energy and mass', 'Particle and wave', 'Positive and negative'], correct: 2, explanation: 'Wave-particle duality: matter exhibits both wave and particle properties.', learnMore: 'https://www.feynmanlectures.caltech.edu/III_01.html', image: '🌊' },
-    
-    // QUANTUM MECHANICS - MEDIUM (5 questions)
-    { id: 66, difficulty: 'medium', category: 'Quantum', question: 'The de Broglie wavelength of a particle is inversely proportional to what?', answers: ['Energy', 'Mass', 'Momentum', 'Velocity'], correct: 2, explanation: 'De Broglie wavelength is inversely proportional to momentum.', learnMore: 'https://www.feynmanlectures.caltech.edu/III_01.html', image: '〰️' },
-    { id: 67, difficulty: 'medium', category: 'Quantum', question: 'What does the wave function represent?', answers: ['Particle position', 'Particle momentum', 'Probability amplitude', 'Energy level'], correct: 2, explanation: 'The wave function is a probability amplitude.', learnMore: 'https://www.feynmanlectures.caltech.edu/III_01.html', image: 'Ψ' },
-    { id: 68, difficulty: 'medium', category: 'Quantum', question: 'In the double-slit experiment with electrons, what creates the interference pattern?', answers: ['Electron collisions', 'Electric fields', 'Wave nature of electrons', 'Magnetic deflection'], correct: 2, explanation: 'Each electron interferes with itself due to its wave nature.', learnMore: 'https://www.feynmanlectures.caltech.edu/III_01.html', image: '||' },
-    { id: 69, difficulty: 'medium', category: 'Quantum', question: 'What are the allowed energy levels in a hydrogen atom?', answers: ['Continuous', 'Quantized', 'Random', 'Equal spacing'], correct: 1, explanation: 'Energy levels in atoms are quantized (discrete), not continuous.', learnMore: 'https://www.feynmanlectures.caltech.edu/III_02.html', image: '⚛️' },
-    { id: 70, difficulty: 'medium', category: 'Quantum', question: 'What does quantum superposition mean?', answers: ['Multiple particles', 'Multiple measurements', 'Multiple states simultaneously', 'Multiple observers'], correct: 2, explanation: 'Superposition means a quantum system can exist in multiple states simultaneously until measured.', learnMore: 'https://www.feynmanlectures.caltech.edu/III_01.html', image: '🔀' },
-    
-    // QUANTUM MECHANICS - HARD (5 questions)
-    { id: 71, difficulty: 'hard', category: 'Quantum', question: 'The Heisenberg uncertainty principle for position and momentum has what relationship?', answers: ['Their product has a lower limit', 'Their sum has a lower limit', 'Their ratio has a lower limit', 'They are independent'], correct: 0, explanation: 'The uncertainty principle states the product of position and momentum uncertainties has a fundamental lower limit.', learnMore: 'https://www.feynmanlectures.caltech.edu/III_02.html', image: '≥' },
-    { id: 72, difficulty: 'hard', category: 'Quantum', question: 'What is quantum entanglement?', answers: ['Particle collision', 'Wave interference', 'Correlated quantum states', 'Energy transfer'], correct: 2, explanation: 'Entanglement creates correlations between particles.', learnMore: 'https://www.feynmanlectures.caltech.edu/III_01.html', image: '🔗' },
-    { id: 73, difficulty: 'hard', category: 'Quantum', question: 'What does the Pauli exclusion principle state?', answers: ['Particles repel', 'No two fermions can occupy same quantum state', 'Bosons exclude fermions', 'Energy levels are unique'], correct: 1, explanation: 'The Pauli principle states no two identical fermions can occupy the same quantum state.', learnMore: 'https://www.feynmanlectures.caltech.edu/III_04.html', image: '🚫' },
-    { id: 74, difficulty: 'hard', category: 'Quantum', question: 'The Schrödinger equation is used to find what?', answers: ['Particle position', 'Wave function evolution', 'Force on particle', 'Energy conservation'], correct: 1, explanation: 'The Schrödinger equation determines how the wave function evolves in time.', learnMore: 'https://www.feynmanlectures.caltech.edu/III_16.html', image: '∂' },
-    { id: 75, difficulty: 'hard', category: 'Quantum', question: 'What is the significance of commutators in quantum mechanics?', answers: ['Measure energy', 'Determine observability', 'Indicate whether observables can be simultaneously measured precisely', 'Count quantum states'], correct: 2, explanation: 'Non-zero commutators mean observables cannot both be precisely measured simultaneously.', learnMore: 'https://www.feynmanlectures.caltech.edu/III_08.html', image: '[ ]' },
-    
-    // RELATIVITY - EASY (5 questions)
-    { id: 76, difficulty: 'easy', category: 'Relativity', question: 'According to Einstein, what is the maximum speed anything can travel?', answers: ['Speed of sound', 'Speed of light', 'Infinite', 'Depends on mass'], correct: 1, explanation: 'The speed of light is the universal speed limit.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_15.html', image: '💫' },
-    { id: 77, difficulty: 'easy', category: 'Relativity', question: 'What famous equation relates energy and mass?', answers: ['F = ma', 'E = mc²', 'E = hf', 'p = mv'], correct: 1, explanation: 'E = mc² shows mass and energy are equivalent and interchangeable.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_15.html', image: '⚡' },
-    { id: 78, difficulty: 'easy', category: 'Relativity', question: 'Time dilation means that moving clocks run how?', answers: ['Faster', 'Slower', 'Same rate', 'Backwards'], correct: 1, explanation: 'Moving clocks run slower relative to stationary observers.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_15.html', image: '⏰' },
-    { id: 79, difficulty: 'easy', category: 'Relativity', question: 'According to special relativity, which is NOT relative between observers?', answers: ['Time intervals', 'Distances', 'Speed of light', 'Simultaneity'], correct: 2, explanation: 'The speed of light in vacuum is absolute and the same for all observers.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_15.html', image: '🔦' },
-    { id: 80, difficulty: 'easy', category: 'Relativity', question: 'Length contraction affects lengths in what direction?', answers: ['All directions', 'Direction of motion', 'Perpendicular to motion', 'No direction'], correct: 1, explanation: 'Moving objects contract only in the direction of motion.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_15.html', image: '↔️' },
-    
-    // RELATIVITY - MEDIUM (5 questions)
-    { id: 81, difficulty: 'medium', category: 'Relativity', question: 'The Lorentz factor appears in what relativistic effects?', answers: ['Only time dilation', 'Only length contraction', 'Both time dilation and length contraction', 'Neither'], correct: 2, explanation: 'The Lorentz factor appears in time dilation, length contraction, and relativistic momentum formulas.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_15.html', image: 'γ' },
-    { id: 82, difficulty: 'medium', category: 'Relativity', question: 'Events that are simultaneous in one frame are generally what in another frame?', answers: ['Also simultaneous', 'Not simultaneous', 'Impossible to determine', 'Reversed in time'], correct: 1, explanation: 'Relativity of simultaneity: events simultaneous in one reference frame are generally not simultaneous in other frames.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_15.html', image: '⏱️' },
-    { id: 83, difficulty: 'medium', category: 'Relativity', question: 'What happens to relativistic momentum as velocity approaches the speed of light?', answers: ['Decreases', 'Stays constant', 'Increases without bound', 'Becomes negative'], correct: 2, explanation: 'Relativistic momentum increases without bound as velocity approaches light speed.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_15.html', image: '∞' },
-    { id: 84, difficulty: 'medium', category: 'Relativity', question: 'The twin paradox demonstrates what relativistic effect?', answers: ['Length contraction', 'Time dilation', 'Mass increase', 'Simultaneity'], correct: 1, explanation: 'The twin paradox shows time dilation: a traveling twin ages less than a stationary twin.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_16.html', image: '👥' },
-    { id: 85, difficulty: 'medium', category: 'Relativity', question: 'In special relativity, what forms a four-dimensional continuum?', answers: ['Three spatial dimensions only', 'Space and time', 'Energy and momentum', 'Electric and magnetic fields'], correct: 1, explanation: 'Spacetime unifies three spatial dimensions and time into a four-dimensional continuum.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_17.html', image: '4D' },
-    
-    // RELATIVITY - HARD (5 questions)
-    { id: 86, difficulty: 'hard', category: 'Relativity', question: 'The relativistic energy-momentum relation relates what quantities?', answers: ['Only energy and momentum', 'Energy, momentum, and rest mass', 'Only energy and mass', 'Only momentum and mass'], correct: 1, explanation: 'The full relation relates total energy to momentum and rest mass.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_16.html', image: '√' },
-    { id: 87, difficulty: 'hard', category: 'Relativity', question: 'General relativity explains gravity as what?', answers: ['A force', 'Curvature of spacetime', 'Exchange of particles', 'Action at a distance'], correct: 1, explanation: 'General relativity describes gravity as curvature of spacetime.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_42.html', image: '🌌' },
-    { id: 88, difficulty: 'hard', category: 'Relativity', question: 'What does the equivalence principle state?', answers: ['All masses are equal', 'Energy equals mass', 'Gravity and acceleration are indistinguishable', 'All frames are equivalent'], correct: 2, explanation: 'The equivalence principle: gravity is locally indistinguishable from acceleration.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_42.html', image: '=' },
-    { id: 89, difficulty: 'hard', category: 'Relativity', question: 'How does relativistic velocity addition differ from classical addition?', answers: ['It\'s the same', 'Sum can\'t exceed c', 'Sum equals product', 'Sum is always less'], correct: 1, explanation: 'Relativistic velocity addition ensures no speed exceeds the speed of light.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_16.html', image: '➕' },
-    { id: 90, difficulty: 'hard', category: 'Relativity', question: 'What causes gravitational time dilation in general relativity?', answers: ['Gravity as force', 'Spacetime curvature', 'Mass density', 'Distance from Earth'], correct: 1, explanation: 'Time runs slower in stronger gravitational fields due to spacetime curvature.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_42.html', image: '⌚' },
-    
-    // OPTICS - EASY (3 questions)
-    { id: 91, difficulty: 'easy', category: 'Optics', question: 'What is the law of reflection?', answers: ['Angle of incidence equals angle of refraction', 'Angle of incidence equals angle of reflection', 'All angles are 90 degrees', 'Angles sum to 180 degrees'], correct: 1, explanation: 'The law of reflection states that the angle of incidence equals the angle of reflection.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_26.html', image: '🪞' },
-    { id: 92, difficulty: 'easy', category: 'Optics', question: 'A concave mirror can form what type of image?', answers: ['Only virtual', 'Only real', 'Both real and virtual', 'No image'], correct: 2, explanation: 'Concave mirrors can form both real and virtual images depending on object position.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_27.html', image: '🔍' },
-    { id: 93, difficulty: 'easy', category: 'Optics', question: 'What causes a rainbow?', answers: ['Reflection only', 'Refraction only', 'Refraction and dispersion', 'Diffraction'], correct: 2, explanation: 'Rainbows form due to refraction and dispersion of sunlight in water droplets.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_26.html', image: '🌈' },
-    
-    // OPTICS - MEDIUM (4 questions)
-    { id: 94, difficulty: 'medium', category: 'Optics', question: 'Snell\'s Law describes what phenomenon?', answers: ['Reflection', 'Refraction', 'Diffraction', 'Interference'], correct: 1, explanation: 'Snell\'s Law describes refraction, relating angles and refractive indices.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_26.html', image: '📐' },
-    { id: 95, difficulty: 'medium', category: 'Optics', question: 'Total internal reflection occurs when light travels from what to what?', answers: ['Low to high refractive index', 'High to low refractive index', 'Same refractive indices', 'Any direction'], correct: 1, explanation: 'Total internal reflection occurs when light travels from higher to lower refractive index.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_26.html', image: '💎' },
-    { id: 96, difficulty: 'medium', category: 'Optics', question: 'What causes chromatic aberration in lenses?', answers: ['Lens shape', 'Dispersion - different colors refract differently', 'Mirror coating', 'Lens thickness'], correct: 1, explanation: 'Chromatic aberration occurs because refractive index varies with wavelength.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_27.html', image: '🌈' },
-    { id: 97, difficulty: 'medium', category: 'Optics', question: 'What is the focal length of a plane mirror?', answers: ['Zero', 'Infinite', 'Depends on size', 'One meter'], correct: 1, explanation: 'A plane mirror has infinite focal length - parallel rays remain parallel after reflection.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_27.html', image: '🪞' },
-    
-    // OPTICS - HARD (3 questions)
-    { id: 98, difficulty: 'hard', category: 'Optics', question: 'The resolution limit of an optical instrument is fundamentally limited by what?', answers: ['Lens size only', 'Diffraction', 'Aberrations', 'Material quality'], correct: 1, explanation: 'Diffraction fundamentally limits resolution.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_30.html', image: '🔭' },
-    { id: 99, difficulty: 'hard', category: 'Optics', question: 'Fermat\'s principle states that light takes what path?', answers: ['Shortest distance', 'Longest time', 'Path of least time', 'Straightest path'], correct: 2, explanation: 'Fermat\'s principle: light takes the path requiring the least time.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_26.html', image: '⏱️' },
-    { id: 100, difficulty: 'hard', category: 'Optics', question: 'Optical fiber communication relies on what principle?', answers: ['Reflection', 'Total internal reflection', 'Refraction', 'Diffraction'], correct: 1, explanation: 'Optical fibers use total internal reflection to guide light.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_26.html', image: '🔦' }
+    {
+      id: 1, difficulty: 'easy', category: 'Mechanics',
+      question: "According to Newton's First Law, an object at rest will remain at rest unless acted upon by what?",
+      answers: ['An unbalanced force', 'Gravity', 'Friction', 'Inertia'],
+      correct: 0,
+      explanation: "Newton's First Law states that an object at rest stays at rest and an object in motion stays in motion unless acted upon by an unbalanced force.",
+      learnMore: 'https://www.feynmanlectures.caltech.edu/I_09.html',
+      image: '🚀'
+    },
+    {
+      id: 2, difficulty: 'easy', category: 'Mechanics',
+      question: 'What is the SI unit of force?',
+      answers: ['Joule', 'Newton', 'Watt', 'Pascal'],
+      correct: 1,
+      explanation: 'The Newton (N) is the SI unit of force.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/I_09.html',
+      image: '⚖️'
+    },
+    {
+      id: 3, difficulty: 'easy', category: 'Energy',
+      question: 'Energy cannot be created or destroyed, only transformed. This is known as what?',
+      answers: ['Theory of Relativity', 'Conservation of Energy', 'Thermodynamics', 'Quantum Mechanics'],
+      correct: 1,
+      explanation: 'The Law of Conservation of Energy is a fundamental principle.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/I_04.html',
+      image: '⚡'
+    },
+    {
+      id: 4, difficulty: 'medium', category: 'Mechanics',
+      question: 'A car travels at constant velocity. What is the net force?',
+      answers: ['In direction of motion', 'Zero', 'Equals weight', 'Varies with speed'],
+      correct: 1,
+      explanation: 'At constant velocity, acceleration is zero, so net force must be zero.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/I_09.html',
+      image: '🚗'
+    },
+    {
+      id: 5, difficulty: 'medium', category: 'Mechanics',
+      question: 'What is the relationship between momentum (p), mass (m), and velocity (v)?',
+      answers: ['p = m + v', 'p = m / v', 'p = m × v', 'p = m - v'],
+      correct: 2,
+      explanation: 'Momentum is defined as mass times velocity (p = mv).',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/I_09.html',
+      image: '💨'
+    },
+    {
+      id: 6, difficulty: 'hard', category: 'Mechanics',
+      question: 'In elastic collision, what is conserved?',
+      answers: ['Only momentum', 'Only kinetic energy', 'Both momentum and kinetic energy', 'Neither'],
+      correct: 2,
+      explanation: 'In elastic collisions, both momentum and kinetic energy are conserved.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/I_10.html',
+      image: '💥'
+    }
   ];
 
-    { id: 26, difficulty: 'hard', category: 'Waves', question: 'In diffraction, what happens to the spreading of waves as they pass through a smaller opening?', answers: ['Decreases', 'Increases', 'Remains constant', 'Depends on wave speed'], correct: 1, explanation: 'Smaller openings cause greater diffraction (spreading).', learnMore: 'https://www.feynmanlectures.caltech.edu/I_30.html', image: '🚪' },
-    { id: 27, difficulty: 'hard', category: 'Light', question: 'What is the principle behind the operation of polarizing sunglasses?', answers: ['They absorb all light', 'They reflect horizontal light waves', 'They block randomly polarized light', 'They transmit only vertically polarized light'], correct: 3, explanation: 'Polarizing sunglasses block horizontally polarized light while transmitting vertically polarized light.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_33.html', image: '🕶️' },
-    { id: 28, difficulty: 'hard', category: 'Waves', question: 'For a wave on a string, what happens to wave speed if tension increases?', answers: ['Decreases', 'Remains constant', 'Increases', 'Becomes zero'], correct: 2, explanation: 'Wave speed on a string is proportional to the square root of tension.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_47.html', image: '🎻' },
-    { id: 29, difficulty: 'hard', category: 'Sound', question: 'When a source of sound moves faster than the speed of sound, what forms?', answers: ['A standing wave', 'A shock wave (sonic boom)', 'An echo', 'A resonance'], correct: 1, explanation: 'When a source exceeds the speed of sound, it creates a shock wave or sonic boom.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_51.html', image: '✈️' },
-    { id: 30, difficulty: 'hard', category: 'Waves', question: 'In a resonant system, what occurs at resonant frequencies?', answers: ['Minimum amplitude', 'Maximum energy dissipation', 'Maximum amplitude oscillation', 'Phase reversal'], correct: 2, explanation: 'At resonant frequencies, a system oscillates with maximum amplitude.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_23.html', image: '🔔' },
-    { id: 31, difficulty: 'easy', category: 'E&M', question: 'Like charges do what to each other?', answers: ['Attract', 'Repel', 'Have no effect', 'Neutralize'], correct: 1, explanation: 'Like charges (both positive or both negative) repel each other.', learnMore: 'https://www.feynmanlectures.caltech.edu/II_01.html', image: '⚡' },
-    { id: 32, difficulty: 'easy', category: 'E&M', question: 'What is the SI unit of electric charge?', answers: ['Ampere', 'Volt', 'Coulomb', 'Ohm'], correct: 2, explanation: 'The Coulomb (C) is the SI unit of electric charge.', learnMore: 'https://www.feynmanlectures.caltech.edu/II_01.html', image: '🔋' },
-    { id: 33, difficulty: 'easy', category: 'E&M', question: 'What creates a magnetic field?', answers: ['Stationary charges', 'Moving charges', 'Neutral particles', 'Photons'], correct: 1, explanation: 'Magnetic fields are created by moving electric charges (currents).', learnMore: 'https://www.feynmanlectures.caltech.edu/II_13.html', image: '🧲' },
-    { id: 34, difficulty: 'easy', category: 'E&M', question: 'What does Ohm\'s Law relate?', answers: ['Voltage, current, and resistance', 'Power, energy, and time', 'Charge, field, and force', 'Frequency, wavelength, and speed'], correct: 0, explanation: 'Ohm\'s Law states V = IR, relating voltage (V), current (I), and resistance (R).', learnMore: 'https://www.feynmanlectures.caltech.edu/II_22.html', image: '💡' },
-    { id: 35, difficulty: 'easy', category: 'E&M', question: 'In a series circuit, what is the same throughout?', answers: ['Voltage', 'Current', 'Resistance', 'Power'], correct: 1, explanation: 'In a series circuit, the same current flows through all components.', learnMore: 'https://www.feynmanlectures.caltech.edu/II_22.html', image: '🔌' },
-    { id: 36, difficulty: 'medium', category: 'E&M', question: 'What phenomenon is described by Faraday\'s Law?', answers: ['Electrostatic attraction', 'Electromagnetic induction', 'Magnetic domains', 'Photoelectric effect'], correct: 1, explanation: 'Faraday\'s Law describes electromagnetic induction.', learnMore: 'https://www.feynmanlectures.caltech.edu/II_16.html', image: '⚙️' },
-    { id: 37, difficulty: 'medium', category: 'E&M', question: 'The force on a charge q moving with velocity v in a magnetic field B is perpendicular to what?', answers: ['Only to v', 'Only to B', 'To both v and B', 'To neither'], correct: 2, explanation: 'The magnetic force is perpendicular to both velocity and magnetic field.', learnMore: 'https://www.feynmanlectures.caltech.edu/II_13.html', image: '➡️' },
-    { id: 38, difficulty: 'medium', category: 'E&M', question: 'What happens to resistance of most conductors as temperature increases?', answers: ['Decreases', 'Increases', 'Remains constant', 'Becomes zero'], correct: 1, explanation: 'For most conductors, resistance increases with temperature.', learnMore: 'https://www.feynmanlectures.caltech.edu/II_22.html', image: '🌡️' },
-    { id: 39, difficulty: 'medium', category: 'E&M', question: 'In a parallel circuit, what is the same across all branches?', answers: ['Current', 'Resistance', 'Voltage', 'Power'], correct: 2, explanation: 'In a parallel circuit, voltage is the same across all branches.', learnMore: 'https://www.feynmanlectures.caltech.edu/II_22.html', image: '🔀' },
-    { id: 40, difficulty: 'medium', category: 'E&M', question: 'What device uses electromagnetic induction to change AC voltage levels?', answers: ['Capacitor', 'Resistor', 'Transformer', 'Diode'], correct: 2, explanation: 'A transformer uses electromagnetic induction between coils to change AC voltage.', learnMore: 'https://www.feynmanlectures.caltech.edu/II_16.html', image: '🔄' },
-    { id: 41, difficulty: 'hard', category: 'E&M', question: 'What is the physical significance of Gauss\'s Law?', answers: ['Relates electric field to charge distribution', 'Describes magnetic monopoles', 'Explains inductance', 'Defines capacitance'], correct: 0, explanation: 'Gauss\'s Law relates electric flux through a closed surface to the enclosed charge.', learnMore: 'https://www.feynmanlectures.caltech.edu/II_04.html', image: '📐' },
-    { id: 42, difficulty: 'hard', category: 'E&M', question: 'What does Maxwell\'s addition to Ampere\'s Law account for?', answers: ['Magnetic monopoles', 'Displacement current', 'Superconductivity', 'Quantum effects'], correct: 1, explanation: 'Maxwell added displacement current term to Ampere\'s Law.', learnMore: 'https://www.feynmanlectures.caltech.edu/II_18.html', image: '🌐' },
-    { id: 43, difficulty: 'hard', category: 'E&M', question: 'A charged particle in crossed electric and magnetic fields can move with constant velocity if what condition is met?', answers: ['E = B', 'E = vB', 'E > vB', 'E < vB'], correct: 1, explanation: 'When E = vB, electric and magnetic forces balance.', learnMore: 'https://www.feynmanlectures.caltech.edu/II_13.html', image: '⚖️' },
-    { id: 44, difficulty: 'hard', category: 'E&M', question: 'What is the energy stored in a capacitor with capacitance C and voltage V?', answers: ['U = CV', 'U = CV²', 'U = ½CV²', 'U = ½CV'], correct: 2, explanation: 'The energy stored in a capacitor is U = ½CV².', learnMore: 'https://www.feynmanlectures.caltech.edu/II_08.html', image: '⚡' },
-    { id: 45, difficulty: 'hard', category: 'E&M', question: 'The self-inductance of a coil depends on what?', answers: ['Current only', 'Voltage only', 'Geometry and number of turns', 'Resistance'], correct: 2, explanation: 'Self-inductance depends on the coil\'s geometry and number of turns.', learnMore: 'https://www.feynmanlectures.caltech.edu/II_17.html', image: '🔄' },
-    { id: 46, difficulty: 'easy', category: 'Thermodynamics', question: 'Temperature is a measure of what?', answers: ['Total energy', 'Average kinetic energy', 'Potential energy', 'Heat capacity'], correct: 1, explanation: 'Temperature measures the average kinetic energy of particles.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_39.html', image: '🌡️' },
-    { id: 47, difficulty: 'easy', category: 'Thermodynamics', question: 'What is absolute zero?', answers: ['0°C', '0°F', '0 K', '0 J'], correct: 2, explanation: 'Absolute zero (0 Kelvin or -273.15°C) is the theoretical temperature where particles have minimum possible kinetic energy.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_39.html', image: '❄️' },
-    { id: 48, difficulty: 'easy', category: 'Thermodynamics', question: 'Heat flows naturally from what to what?', answers: ['Cold to hot', 'Hot to cold', 'Low pressure to high pressure', 'High density to low density'], correct: 1, explanation: 'The Second Law of Thermodynamics states heat flows naturally from higher to lower temperature.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_44.html', image: '🔥' },
-    { id: 49, difficulty: 'easy', category: 'Thermodynamics', question: 'What is the first law of thermodynamics essentially a statement of?', answers: ['Energy conservation', 'Entropy increase', 'Temperature equilibrium', 'Pressure-volume relationship'], correct: 0, explanation: 'The First Law is essentially conservation of energy.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_44.html', image: '⚖️' },
-    { id: 50, difficulty: 'easy', category: 'Thermodynamics', question: 'What are the three common methods of heat transfer?', answers: ['Radiation, convection, conduction', 'Fusion, fission, decay', 'Melting, boiling, sublimation', 'Expansion, compression, equilibrium'], correct: 0, explanation: 'Heat transfers by conduction (direct contact), convection (fluid motion), and radiation (electromagnetic waves).', learnMore: 'https://www.feynmanlectures.caltech.edu/I_40.html', image: '🌊' },
-    { id: 51, difficulty: 'medium', category: 'Thermodynamics', question: 'In an isothermal process, what remains constant?', answers: ['Pressure', 'Volume', 'Temperature', 'Entropy'], correct: 2, explanation: 'In an isothermal process, temperature stays constant.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_39.html', image: '📊' },
-    { id: 52, difficulty: 'medium', category: 'Thermodynamics', question: 'What does entropy measure?', answers: ['Energy', 'Temperature', 'Disorder or randomness', 'Pressure'], correct: 2, explanation: 'Entropy is a measure of disorder or randomness in a system.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_44.html', image: '🎲' },
-    { id: 53, difficulty: 'medium', category: 'Thermodynamics', question: 'For an ideal gas undergoing adiabatic compression, what happens to its temperature?', answers: ['Decreases', 'Stays constant', 'Increases', 'Becomes zero'], correct: 2, explanation: 'In adiabatic compression (no heat transfer), work done on gas increases internal energy, raising temperature.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_39.html', image: '🔼' },
-    { id: 54, difficulty: 'medium', category: 'Thermodynamics', question: 'The Carnot cycle represents what kind of engine?', answers: ['Most practical', 'Least efficient', 'Theoretically most efficient', 'Fastest operating'], correct: 2, explanation: 'The Carnot cycle represents the most efficient possible heat engine.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_44.html', image: '🔄' },
-    { id: 55, difficulty: 'medium', category: 'Thermodynamics', question: 'What is specific heat capacity?', answers: ['Heat per unit volume', 'Heat per unit mass per degree', 'Total heat content', 'Heat transfer rate'], correct: 1, explanation: 'Specific heat capacity is the heat required to raise one unit of mass by one degree temperature.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_40.html', image: '🔥' },
-    { id: 56, difficulty: 'hard', category: 'Thermodynamics', question: 'What is the maximum efficiency of a Carnot engine operating between hot and cold temperatures?', answers: ['Always 100%', 'Depends on temperature difference', 'Always 50%', 'Depends on fuel type'], correct: 1, explanation: 'Carnot efficiency depends on the temperature difference and is less than 100%.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_44.html', image: '🏭' },
-    { id: 57, difficulty: 'hard', category: 'Thermodynamics', question: 'In a reversible adiabatic process for an ideal gas, what relationship holds?', answers: ['PV = constant', 'PV with exponent = constant', 'P/V = constant', 'PV² = constant'], correct: 1, explanation: 'For reversible adiabatic processes, pressure and volume follow a power law relationship.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_39.html', image: '📐' },
-    { id: 58, difficulty: 'hard', category: 'Thermodynamics', question: 'The Boltzmann factor represents what?', answers: ['Total energy', 'Average energy', 'Relative probability of state', 'Entropy'], correct: 2, explanation: 'The Boltzmann factor gives relative probability of finding a system in a state with given energy.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_40.html', image: '📊' },
-    { id: 59, difficulty: 'hard', category: 'Thermodynamics', question: 'The third law of thermodynamics states what about entropy at absolute zero?', answers: ['Entropy is infinite', 'Entropy is maximum', 'Entropy approaches zero', 'Entropy is undefined'], correct: 2, explanation: 'The third law states that entropy of a perfect crystal approaches zero as temperature approaches absolute zero.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_44.html', image: '❄️' },
-    { id: 60, difficulty: 'hard', category: 'Thermodynamics', question: 'What is the significance of the partition function in statistical mechanics?', answers: ['It equals total energy', 'It determines all thermodynamic properties', 'It measures entropy directly', 'It counts particles'], correct: 1, explanation: 'The partition function is central to statistical mechanics; all thermodynamic properties can be derived from it.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_40.html', image: '🔢' },
-    { id: 61, difficulty: 'easy', category: 'Quantum', question: 'Who proposed that light consists of discrete packets of energy called quanta?', answers: ['Newton', 'Einstein', 'Planck', 'Bohr'], correct: 2, explanation: 'Max Planck proposed quantum theory in 1900.', learnMore: 'https://www.feynmanlectures.caltech.edu/III_01.html', image: '💡' },
-    { id: 62, difficulty: 'easy', category: 'Quantum', question: 'What is the name for a quantum of light?', answers: ['Electron', 'Proton', 'Photon', 'Neutron'], correct: 2, explanation: 'A photon is a quantum (discrete packet) of electromagnetic energy.', learnMore: 'https://www.feynmanlectures.caltech.edu/III_01.html', image: '✨' },
-    { id: 63, difficulty: 'easy', category: 'Quantum', question: 'The energy of a photon is proportional to what?', answers: ['Wavelength', 'Frequency', 'Speed', 'Amplitude'], correct: 1, explanation: 'Photon energy is proportional to frequency.', learnMore: 'https://www.feynmanlectures.caltech.edu/III_01.html', image: '🌈' },
-    { id: 64, difficulty: 'easy', category: 'Quantum', question: 'What is the uncertainty principle fundamentally about?', answers: ['Measurement errors', 'Fundamental limits on knowledge', 'Observer effects', 'Equipment limitations'], correct: 1, explanation: 'The uncertainty principle is a fundamental property of nature.', learnMore: 'https://www.feynmanlectures.caltech.edu/III_02.html', image: '❓' },
-    { id: 65, difficulty: 'easy', category: 'Quantum', question: 'Matter can exhibit properties of both what?', answers: ['Solid and liquid', 'Energy and mass', 'Particle and wave', 'Positive and negative'], correct: 2, explanation: 'Wave-particle duality: matter exhibits both wave and particle properties.', learnMore: 'https://www.feynmanlectures.caltech.edu/III_01.html', image: '🌊' },
-    { id: 66, difficulty: 'medium', category: 'Quantum', question: 'The de Broglie wavelength of a particle is inversely proportional to what?', answers: ['Energy', 'Mass', 'Momentum', 'Velocity'], correct: 2, explanation: 'De Broglie wavelength is inversely proportional to momentum.', learnMore: 'https://www.feynmanlectures.caltech.edu/III_01.html', image: '〰️' },
-    { id: 67, difficulty: 'medium', category: 'Quantum', question: 'What does the wave function represent?', answers: ['Particle position', 'Particle momentum', 'Probability amplitude', 'Energy level'], correct: 2, explanation: 'The wave function is a probability amplitude.', learnMore: 'https://www.feynmanlectures.caltech.edu/III_01.html', image: 'Ψ' },
-    { id: 68, difficulty: 'medium', category: 'Quantum', question: 'In the double-slit experiment with electrons, what creates the interference pattern?', answers: ['Electron collisions', 'Electric fields', 'Wave nature of electrons', 'Magnetic deflection'], correct: 2, explanation: 'Each electron interferes with itself due to its wave nature.', learnMore: 'https://www.feynmanlectures.caltech.edu/III_01.html', image: '||' },
-    { id: 69, difficulty: 'medium', category: 'Quantum', question: 'What are the allowed energy levels in a hydrogen atom?', answers: ['Continuous', 'Quantized', 'Random', 'Equal spacing'], correct: 1, explanation: 'Energy levels in atoms are quantized (discrete), not continuous.', learnMore: 'https://www.feynmanlectures.caltech.edu/III_02.html', image: '⚛️' },
-    { id: 70, difficulty: 'medium', category: 'Quantum', question: 'What does quantum superposition mean?', answers: ['Multiple particles', 'Multiple measurements', 'Multiple states simultaneously', 'Multiple observers'], correct: 2, explanation: 'Superposition means a quantum system can exist in multiple states simultaneously until measured.', learnMore: 'https://www.feynmanlectures.caltech.edu/III_01.html', image: '🔀' },
-    { id: 71, difficulty: 'hard', category: 'Quantum', question: 'The Heisenberg uncertainty principle for position and momentum has what relationship?', answers: ['Their product has a lower limit', 'Their sum has a lower limit', 'Their ratio has a lower limit', 'They are independent'], correct: 0, explanation: 'The uncertainty principle states the product of position and momentum uncertainties has a fundamental lower limit.', learnMore: 'https://www.feynmanlectures.caltech.edu/III_02.html', image: '≥' },
-    { id: 72, difficulty: 'hard', category: 'Quantum', question: 'What is quantum entanglement?', answers: ['Particle collision', 'Wave interference', 'Correlated quantum states', 'Energy transfer'], correct: 2, explanation: 'Entanglement creates correlations between particles.', learnMore: 'https://www.feynmanlectures.caltech.edu/III_01.html', image: '🔗' },
-    { id: 73, difficulty: 'hard', category: 'Quantum', question: 'What does the Pauli exclusion principle state?', answers: ['Particles repel', 'No two fermions can occupy same quantum state', 'Bosons exclude fermions', 'Energy levels are unique'], correct: 1, explanation: 'The Pauli principle states no two identical fermions can occupy the same quantum state.', learnMore: 'https://www.feynmanlectures.caltech.edu/III_04.html', image: '🚫' },
-    { id: 74, difficulty: 'hard', category: 'Quantum', question: 'The Schrödinger equation is used to find what?', answers: ['Particle position', 'Wave function evolution', 'Force on particle', 'Energy conservation'], correct: 1, explanation: 'The Schrödinger equation determines how the wave function evolves in time.', learnMore: 'https://www.feynmanlectures.caltech.edu/III_16.html', image: '∂' },
-    { id: 75, difficulty: 'hard', category: 'Quantum', question: 'What is the significance of commutators in quantum mechanics?', answers: ['Measure energy', 'Determine observability', 'Indicate whether observables can be simultaneously measured precisely', 'Count quantum states'], correct: 2, explanation: 'Non-zero commutators mean observables cannot both be precisely measured simultaneously.', learnMore: 'https://www.feynmanlectures.caltech.edu/III_08.html', image: '[ ]' },
-    { id: 76, difficulty: 'easy', category: 'Relativity', question: 'According to Einstein, what is the maximum speed anything can travel?', answers: ['Speed of sound', 'Speed of light', 'Infinite', 'Depends on mass'], correct: 1, explanation: 'The speed of light is the universal speed limit.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_15.html', image: '💫' },
-    { id: 77, difficulty: 'easy', category: 'Relativity', question: 'What famous equation relates energy and mass?', answers: ['F = ma', 'E = mc²', 'E = hf', 'p = mv'], correct: 1, explanation: 'E = mc² shows mass and energy are equivalent and interchangeable.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_15.html', image: '⚡' },
-    { id: 78, difficulty: 'easy', category: 'Relativity', question: 'Time dilation means that moving clocks run how?', answers: ['Faster', 'Slower', 'Same rate', 'Backwards'], correct: 1, explanation: 'Moving clocks run slower relative to stationary observers.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_15.html', image: '⏰' },
-    { id: 79, difficulty: 'easy', category: 'Relativity', question: 'According to special relativity, which is NOT relative between observers?', answers: ['Time intervals', 'Distances', 'Speed of light', 'Simultaneity'], correct: 2, explanation: 'The speed of light in vacuum is absolute and the same for all observers.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_15.html', image: '🔦' },
-    { id: 80, difficulty: 'easy', category: 'Relativity', question: 'Length contraction affects lengths in what direction?', answers: ['All directions', 'Direction of motion', 'Perpendicular to motion', 'No direction'], correct: 1, explanation: 'Moving objects contract only in the direction of motion.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_15.html', image: '↔️' },
-    { id: 81, difficulty: 'medium', category: 'Relativity', question: 'The Lorentz factor appears in what relativistic effects?', answers: ['Only time dilation', 'Only length contraction', 'Both time dilation and length contraction', 'Neither'], correct: 2, explanation: 'The Lorentz factor appears in time dilation, length contraction, and relativistic momentum formulas.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_15.html', image: 'γ' },
-    { id: 82, difficulty: 'medium', category: 'Relativity', question: 'Events that are simultaneous in one frame are generally what in another frame?', answers: ['Also simultaneous', 'Not simultaneous', 'Impossible to determine', 'Reversed in time'], correct: 1, explanation: 'Relativity of simultaneity: events simultaneous in one reference frame are generally not simultaneous in other frames.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_15.html', image: '⏱️' },
-    { id: 83, difficulty: 'medium', category: 'Relativity', question: 'What happens to relativistic momentum as velocity approaches the speed of light?', answers: ['Decreases', 'Stays constant', 'Increases without bound', 'Becomes negative'], correct: 2, explanation: 'Relativistic momentum increases without bound as velocity approaches light speed.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_15.html', image: '∞' },
-    { id: 84, difficulty: 'medium', category: 'Relativity', question: 'The twin paradox demonstrates what relativistic effect?', answers: ['Length contraction', 'Time dilation', 'Mass increase', 'Simultaneity'], correct: 1, explanation: 'The twin paradox shows time dilation: a traveling twin ages less than a stationary twin.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_16.html', image: '👥' },
-    { id: 85, difficulty: 'medium', category: 'Relativity', question: 'In special relativity, what forms a four-dimensional continuum?', answers: ['Three spatial dimensions only', 'Space and time', 'Energy and momentum', 'Electric and magnetic fields'], correct: 1, explanation: 'Spacetime unifies three spatial dimensions and time into a four-dimensional continuum.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_17.html', image: '4D' },
-    { id: 86, difficulty: 'hard', category: 'Relativity', question: 'The relativistic energy-momentum relation relates what quantities?', answers: ['Only energy and momentum', 'Energy, momentum, and rest mass', 'Only energy and mass', 'Only momentum and mass'], correct: 1, explanation: 'The full relation relates total energy to momentum and rest mass.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_16.html', image: '√' },
-    { id: 87, difficulty: 'hard', category: 'Relativity', question: 'General relativity explains gravity as what?', answers: ['A force', 'Curvature of spacetime', 'Exchange of particles', 'Action at a distance'], correct: 1, explanation: 'General relativity describes gravity as curvature of spacetime.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_42.html', image: '🌌' },
-    { id: 88, difficulty: 'hard', category: 'Relativity', question: 'What does the equivalence principle state?', answers: ['All masses are equal', 'Energy equals mass', 'Gravity and acceleration are indistinguishable', 'All frames are equivalent'], correct: 2, explanation: 'The equivalence principle: gravity is locally indistinguishable from acceleration.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_42.html', image: '=' },
-    { id: 89, difficulty: 'hard', category: 'Relativity', question: 'How does relativistic velocity addition differ from classical addition?', answers: ['It\'s the same', 'Sum can\'t exceed c', 'Sum equals product', 'Sum is always less'], correct: 1, explanation: 'Relativistic velocity addition ensures no speed exceeds the speed of light.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_16.html', image: '➕' },
-    { id: 90, difficulty: 'hard', category: 'Relativity', question: 'What causes gravitational time dilation in general relativity?', answers: ['Gravity as force', 'Spacetime curvature', 'Mass density', 'Distance from Earth'], correct: 1, explanation: 'Time runs slower in stronger gravitational fields due to spacetime curvature.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_42.html', image: '⌚' },
-    { id: 91, difficulty: 'easy', category: 'Optics', question: 'What is the law of reflection?', answers: ['Angle of incidence equals angle of refraction', 'Angle of incidence equals angle of reflection', 'All angles are 90 degrees', 'Angles sum to 180 degrees'], correct: 1, explanation: 'The law of reflection states that the angle of incidence equals the angle of reflection.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_26.html', image: '🪞' },
-    { id: 92, difficulty: 'easy', category: 'Optics', question: 'A concave mirror can form what type of image?', answers: ['Only virtual', 'Only real', 'Both real and virtual', 'No image'], correct: 2, explanation: 'Concave mirrors can form both real and virtual images depending on object position.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_27.html', image: '🔍' },
-    { id: 93, difficulty: 'easy', category: 'Optics', question: 'What causes a rainbow?', answers: ['Reflection only', 'Refraction only', 'Refraction and dispersion', 'Diffraction'], correct: 2, explanation: 'Rainbows form due to refraction and dispersion of sunlight in water droplets.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_26.html', image: '🌈' },
-    { id: 94, difficulty: 'medium', category: 'Optics', question: 'Snell\'s Law describes what phenomenon?', answers: ['Reflection', 'Refraction', 'Diffraction', 'Interference'], correct: 1, explanation: 'Snell\'s Law describes refraction, relating angles and refractive indices.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_26.html', image: '📐' },
-    { id: 95, difficulty: 'medium', category: 'Optics', question: 'Total internal reflection occurs when light travels from what to what?', answers: ['Low to high refractive index', 'High to low refractive index', 'Same refractive indices', 'Any direction'], correct: 1, explanation: 'Total internal reflection occurs when light travels from higher to lower refractive index.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_26.html', image: '💎' },
-    { id: 96, difficulty: 'medium', category: 'Optics', question: 'What causes chromatic aberration in lenses?', answers: ['Lens shape', 'Dispersion - different colors refract differently', 'Mirror coating', 'Lens thickness'], correct: 1, explanation: 'Chromatic aberration occurs because refractive index varies with wavelength.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_27.html', image: '🌈' },
-    { id: 97, difficulty: 'medium', category: 'Optics', question: 'What is the focal length of a plane mirror?', answers: ['Zero', 'Infinite', 'Depends on size', 'One meter'], correct: 1, explanation: 'A plane mirror has infinite focal length - parallel rays remain parallel after reflection.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_27.html', image: '🪞' },
-    { id: 98, difficulty: 'hard', category: 'Optics', question: 'The resolution limit of an optical instrument is fundamentally limited by what?', answers: ['Lens size only', 'Diffraction', 'Aberrations', 'Material quality'], correct: 1, explanation: 'Diffraction fundamentally limits resolution.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_30.html', image: '🔭' },
-    { id: 99, difficulty: 'hard', category: 'Optics', question: 'Fermat\'s principle states that light takes what path?', answers: ['Shortest distance', 'Longest time', 'Path of least time', 'Straightest path'], correct: 2, explanation: 'Fermat\'s principle: light takes the path requiring the least time.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_26.html', image: '⏱️' },
-    { id: 100, difficulty: 'hard', category: 'Optics', question: 'Optical fiber communication relies on what principle?', answers: ['Reflection', 'Total internal reflection', 'Refraction', 'Diffraction'], correct: 1, explanation: 'Optical fibers use total internal reflection to guide light.', learnMore: 'https://www.feynmanlectures.caltech.edu/I_26.html', image: '🔦' }
-  ];
-
-        const filteredQuestions = questions.filter(q => q.difficulty === difficulty);
+  const filteredQuestions = questions.filter(q => q.difficulty === difficulty);
   const currentQ = filteredQuestions[currentQuestion];
-
-  const checkBadges = (newScore, newStreak, newTotalAnswered) => {
-    const newBadges = [...badges];
-    if (newScore >= 1 && !badges.includes('first_correct')) {
-      newBadges.push('first_correct');
-    }
-    if (newStreak >= 5 && !badges.includes('streak_5')) {
-      newBadges.push('streak_5');
-    }
-    if (newStreak >= 10 && !badges.includes('streak_10')) {
-      newBadges.push('streak_10');
-    }
-    if (newTotalAnswered >= 10 && !badges.includes('questions_10')) {
-      newBadges.push('questions_10');
-    }
-    if (newTotalAnswered >= 25 && !badges.includes('questions_25')) {
-      newBadges.push('questions_25');
-    }
-    if (newTotalAnswered >= 50 && !badges.includes('questions_50')) {
-      newBadges.push('questions_50');
-    }
-    setBadges(newBadges);
-  };
 
   const handleAnswer = (index) => {
     if (showFeedback) return;
     setSelectedAnswer(index);
     setShowFeedback(true);
-    const isCorrect = index === currentQ.correct;
-    const newTotalAnswered = totalAnswered + 1;
-    setTotalAnswered(newTotalAnswered);
-    
-    if (isCorrect) {
-      const newScore = score + 1;
-      const newStreak = streak + 1;
-      setScore(newScore);
-      setStreak(newStreak);
-      checkBadges(newScore, newStreak, newTotalAnswered);
+    if (index === currentQ.correct) {
+      setScore(score + 1);
+      setStreak(streak + 1);
     } else {
       setStreak(0);
-      checkBadges(score, 0, newTotalAnswered);
     }
   };
 
@@ -320,13 +123,13 @@ const FeynmanPhysicsGame = () => {
     setGameState('playing');
   };
 
-        if (gameState === 'menu') {
+  if (gameState === 'menu') {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 p-8">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
             <h1 className="text-6xl font-bold text-white mb-4">⚛️ Feynman Physics Challenge</h1>
-            <p className="text-xl text-blue-200">Test your physics knowledge with 100+ questions!</p>
+            <p className="text-xl text-blue-200">Test your physics knowledge!</p>
           </div>
           <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 shadow-2xl">
             <div className="mb-6">
@@ -362,35 +165,12 @@ const FeynmanPhysicsGame = () => {
     );
   }
 
-        if (gameState === 'results') {
+  if (gameState === 'results') {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 p-8 flex items-center justify-center">
         <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-12 text-center max-w-2xl">
           <h1 className="text-5xl font-bold text-white mb-6">🎉 Challenge Complete!</h1>
           <div className="text-7xl font-bold text-yellow-400 mb-8">{score} / {filteredQuestions.length}</div>
-          <p className="text-2xl text-white mb-8">
-            {score === filteredQuestions.length ? 'Perfect Score! 🌟' :
-             score >= filteredQuestions.length * 0.8 ? 'Excellent work! 🎓' :
-             score >= filteredQuestions.length * 0.6 ? 'Good job! 📚' :
-             'Keep practicing! 💪'}
-          </p>
-          <div className="bg-white/10 rounded-2xl p-6 mb-8">
-            <h2 className="text-2xl font-bold text-white mb-4">Your Badges</h2>
-            <div className="grid grid-cols-3 gap-4">
-              {badgeDefinitions.map((badge) => (
-                <div
-                  key={badge.id}
-                  className={`p-4 rounded-xl ${
-                    badges.includes(badge.id) ? 'bg-yellow-400/20 border-2 border-yellow-400' : 'bg-white/5 opacity-50'
-                  }`}
-                  title={badge.description}
-                >
-                  <div className="text-4xl mb-2">{badge.icon}</div>
-                  <div className="text-xs text-white">{badge.name}</div>
-                </div>
-              ))}
-            </div>
-          </div>
           <div className="flex gap-4 justify-center">
             <button onClick={restartGame} className="bg-gradient-to-r from-green-400 to-blue-500 text-white font-bold py-3 px-8 rounded-xl">
               🔄 Play Again
@@ -404,10 +184,10 @@ const FeynmanPhysicsGame = () => {
     );
   }
 
-        return (
+  return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 p-8">
       <div className="max-w-5xl mx-auto">
-        <div className="grid grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-3 gap-4 mb-8">
           <div className="bg-white/10 rounded-xl p-4 text-center">
             <div className="text-sm text-blue-200">Score</div>
             <div className="text-3xl font-bold text-white">{score}</div>
@@ -419,10 +199,6 @@ const FeynmanPhysicsGame = () => {
           <div className="bg-white/10 rounded-xl p-4 text-center">
             <div className="text-sm text-blue-200">Progress</div>
             <div className="text-3xl font-bold text-white">{currentQuestion + 1}/{filteredQuestions.length}</div>
-          </div>
-          <div className="bg-white/10 rounded-xl p-4 text-center">
-            <div className="text-sm text-blue-200">Badges</div>
-            <div className="text-3xl font-bold text-white">{badges.length}/{badgeDefinitions.length}</div>
           </div>
         </div>
         <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 shadow-2xl">
@@ -436,19 +212,14 @@ const FeynmanPhysicsGame = () => {
           <h2 className="text-3xl font-bold text-white mb-8">{currentQ.question}</h2>
           <div className="space-y-4 mb-8">
             {currentQ.answers.map((answer, index) => {
-        let buttonClass = 'bg-white/20 text-white';
+              let buttonClass = 'bg-white/20 text-white';
               if (showFeedback) {
                 if (index === currentQ.correct) buttonClass = 'bg-green-500 text-white';
                 else if (index === selectedAnswer) buttonClass = 'bg-red-500 text-white';
                 else buttonClass = 'bg-white/10 text-white/50';
               }
               return (
-                <button
-                  key={index}
-                  onClick={() => handleAnswer(index)}
-                  disabled={showFeedback}
-                  className={`w-full p-5 rounded-xl font-semibold text-lg text-left transition-all ${buttonClass}`}
-                >
+                <button key={index} onClick={() => handleAnswer(index)} disabled={showFeedback} className={`w-full p-5 rounded-xl font-semibold text-lg text-left ${buttonClass}`}>
                   {String.fromCharCode(65 + index)}. {answer}
                 </button>
               );
@@ -460,21 +231,13 @@ const FeynmanPhysicsGame = () => {
                 {selectedAnswer === currentQ.correct ? '✅ Correct!' : '❌ Not quite!'}
               </h3>
               <p className="text-white text-lg mb-4">{currentQ.explanation}</p>
-              
-                href={currentQ.learnMore}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block bg-white/20 text-white px-4 py-2 rounded-lg font-semibold"
-              >
-                📖 Learn More from Feynman Lectures
+              <a href={currentQ.learnMore} target="_blank" rel="noopener noreferrer" className="inline-block bg-white/20 text-white px-4 py-2 rounded-lg font-semibold">
+                📖 Learn More
               </a>
             </div>
           )}
           {showFeedback && (
-            <button
-              onClick={nextQuestion}
-              className="w-full bg-gradient-to-r from-green-400 to-blue-500 text-white font-bold py-4 px-8 rounded-xl text-xl"
-            >
+            <button onClick={nextQuestion} className="w-full bg-gradient-to-r from-green-400 to-blue-500 text-white font-bold py-4 px-8 rounded-xl text-xl">
               {currentQuestion < filteredQuestions.length - 1 ? 'Next Question →' : 'See Results ⭐'}
             </button>
           )}
