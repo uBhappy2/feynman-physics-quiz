@@ -78,6 +78,456 @@ const FeynmanPhysicsGame = () => {
       explanation: 'In elastic collisions, both momentum and kinetic energy are conserved.',
       learnMore: 'https://www.feynmanlectures.caltech.edu/I_10.html',
       image: '💥'
+    },
+    {
+      id: 7, difficulty: 'easy', category: 'Mechanics',
+      question: 'What does F = ma represent?',
+      answers: ['Newton\'s First Law', 'Newton\'s Second Law', 'Newton\'s Third Law', 'Conservation of Energy'],
+      correct: 1,
+      explanation: 'F = ma is Newton\'s Second Law, relating force, mass, and acceleration.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/I_09.html',
+      image: '📐'
+    },
+    {
+      id: 8, difficulty: 'easy', category: 'Motion',
+      question: 'If you drop two balls of different masses (ignoring air resistance), which hits first?',
+      answers: ['The heavier ball', 'The lighter ball', 'They hit at the same time', 'Depends on shape'],
+      correct: 2,
+      explanation: 'In the absence of air resistance, all objects fall at the same rate.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/I_09.html',
+      image: '🌍'
+    },
+    {
+      id: 9, difficulty: 'easy', category: 'Waves',
+      question: 'What is the relationship between wavelength, frequency, and wave speed?',
+      answers: ['v = λ / f', 'v = λ × f', 'v = λ + f', 'v = λ - f'],
+      correct: 1,
+      explanation: 'The wave equation v = λf relates wave speed, wavelength, and frequency.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/I_47.html',
+      image: '🌊'
+    },
+    {
+      id: 10, difficulty: 'easy', category: 'Waves',
+      question: 'Sound waves require what to propagate?',
+      answers: ['A vacuum', 'A medium', 'Electricity', 'Magnetism'],
+      correct: 1,
+      explanation: 'Sound waves are mechanical waves that require a medium to propagate.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/I_47.html',
+      image: '🔊'
+    },
+    {
+      id: 11, difficulty: 'easy', category: 'Light',
+      question: 'What is the speed of light in vacuum?',
+      answers: ['3 × 10⁸ m/s', '3 × 10⁶ m/s', '3 × 10¹⁰ m/s', '3 × 10⁴ m/s'],
+      correct: 0,
+      explanation: 'The speed of light in vacuum is approximately 3 × 10⁸ m/s.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/I_26.html',
+      image: '💡'
+    },
+    {
+      id: 12, difficulty: 'easy', category: 'Waves',
+      question: 'What happens when two waves meet and their crests align?',
+      answers: ['Destructive interference', 'Constructive interference', 'Reflection', 'Refraction'],
+      correct: 1,
+      explanation: 'When wave crests align, they add together in constructive interference.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/I_47.html',
+      image: '➕'
+    },
+    {
+      id: 13, difficulty: 'easy', category: 'E&M',
+      question: 'Like charges do what to each other?',
+      answers: ['Attract', 'Repel', 'Have no effect', 'Neutralize'],
+      correct: 1,
+      explanation: 'Like charges (both positive or both negative) repel each other.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/II_01.html',
+      image: '⚡'
+    },
+    {
+      id: 14, difficulty: 'easy', category: 'E&M',
+      question: 'What is the SI unit of electric charge?',
+      answers: ['Ampere', 'Volt', 'Coulomb', 'Ohm'],
+      correct: 2,
+      explanation: 'The Coulomb (C) is the SI unit of electric charge.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/II_01.html',
+      image: '🔋'
+    },
+    {
+      id: 15, difficulty: 'easy', category: 'E&M',
+      question: 'What creates a magnetic field?',
+      answers: ['Stationary charges', 'Moving charges', 'Neutral particles', 'Photons'],
+      correct: 1,
+      explanation: 'Magnetic fields are created by moving electric charges.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/II_13.html',
+      image: '🧲'
+    },
+    {
+      id: 16, difficulty: 'easy', category: 'Thermodynamics',
+      question: 'Temperature is a measure of what?',
+      answers: ['Total energy', 'Average kinetic energy', 'Potential energy', 'Heat capacity'],
+      correct: 1,
+      explanation: 'Temperature measures the average kinetic energy of particles.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/I_39.html',
+      image: '🌡️'
+    },
+    {
+      id: 17, difficulty: 'easy', category: 'Thermodynamics',
+      question: 'Heat flows naturally from what to what?',
+      answers: ['Cold to hot', 'Hot to cold', 'Low pressure to high', 'High density to low'],
+      correct: 1,
+      explanation: 'Heat flows naturally from higher to lower temperature.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/I_44.html',
+      image: '🔥'
+    },
+    {
+      id: 18, difficulty: 'easy', category: 'Quantum',
+      question: 'What is the name for a quantum of light?',
+      answers: ['Electron', 'Proton', 'Photon', 'Neutron'],
+      correct: 2,
+      explanation: 'A photon is a quantum of electromagnetic energy.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/III_01.html',
+      image: '✨'
+    },
+    {
+      id: 19, difficulty: 'easy', category: 'Relativity',
+      question: 'What is the maximum speed anything can travel?',
+      answers: ['Speed of sound', 'Speed of light', 'Infinite', 'Depends on mass'],
+      correct: 1,
+      explanation: 'The speed of light is the universal speed limit.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/I_15.html',
+      image: '💫'
+    },
+    {
+      id: 20, difficulty: 'easy', category: 'Relativity',
+      question: 'What famous equation relates energy and mass?',
+      answers: ['F = ma', 'E = mc²', 'E = hf', 'p = mv'],
+      correct: 1,
+      explanation: 'E = mc² shows mass and energy are equivalent.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/I_15.html',
+      image: '⚡'
+    },
+    {
+      id: 21, difficulty: 'medium', category: 'Energy',
+      question: 'A pendulum at its highest point has maximum what?',
+      answers: ['Kinetic energy', 'Potential energy', 'Thermal energy', 'Chemical energy'],
+      correct: 1,
+      explanation: 'At the highest point, potential energy is maximum.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/I_04.html',
+      image: '⏰'
+    },
+    {
+      id: 22, difficulty: 'medium', category: 'Mechanics',
+      question: 'If you push a box at constant velocity, friction force is what?',
+      answers: ['Greater than applied force', 'Less than applied force', 'Equal to applied force', 'Zero'],
+      correct: 2,
+      explanation: 'At constant velocity, friction balances the applied force.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/I_09.html',
+      image: '📦'
+    },
+    {
+      id: 23, difficulty: 'medium', category: 'Rotation',
+      question: 'What is conserved when no external torque acts?',
+      answers: ['Linear momentum', 'Angular momentum', 'Kinetic energy', 'Potential energy'],
+      correct: 1,
+      explanation: 'Angular momentum is conserved without external torques.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/I_18.html',
+      image: '🌀'
+    },
+    {
+      id: 24, difficulty: 'medium', category: 'Waves',
+      question: 'What causes a straw to appear bent in water?',
+      answers: ['Reflection', 'Diffraction', 'Refraction', 'Interference'],
+      correct: 2,
+      explanation: 'Refraction bends light as it passes between media.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/I_26.html',
+      image: '🥤'
+    },
+    {
+      id: 25, difficulty: 'medium', category: 'Sound',
+      question: 'The Doppler effect changes what property of a wave?',
+      answers: ['Amplitude', 'Speed', 'Frequency', 'Phase'],
+      correct: 2,
+      explanation: 'The Doppler effect changes observed frequency.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/I_47.html',
+      image: '🚑'
+    },
+    {
+      id: 26, difficulty: 'medium', category: 'E&M',
+      question: 'What phenomenon does Faraday\'s Law describe?',
+      answers: ['Electrostatic attraction', 'Electromagnetic induction', 'Magnetic domains', 'Photoelectric effect'],
+      correct: 1,
+      explanation: 'Faraday\'s Law describes electromagnetic induction.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/II_16.html',
+      image: '⚙️'
+    },
+    {
+      id: 27, difficulty: 'medium', category: 'E&M',
+      question: 'In a parallel circuit, what is the same across all branches?',
+      answers: ['Current', 'Resistance', 'Voltage', 'Power'],
+      correct: 2,
+      explanation: 'In parallel circuits, voltage is the same across branches.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/II_22.html',
+      image: '🔀'
+    },
+    {
+      id: 28, difficulty: 'medium', category: 'Thermodynamics',
+      question: 'In an isothermal process, what remains constant?',
+      answers: ['Pressure', 'Volume', 'Temperature', 'Entropy'],
+      correct: 2,
+      explanation: 'Isothermal means temperature stays constant.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/I_39.html',
+      image: '📊'
+    },
+    {
+      id: 29, difficulty: 'medium', category: 'Thermodynamics',
+      question: 'What does entropy measure?',
+      answers: ['Energy', 'Temperature', 'Disorder or randomness', 'Pressure'],
+      correct: 2,
+      explanation: 'Entropy measures disorder in a system.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/I_44.html',
+      image: '🎲'
+    },
+    {
+      id: 30, difficulty: 'medium', category: 'Quantum',
+      question: 'The de Broglie wavelength is inversely proportional to what?',
+      answers: ['Energy', 'Mass', 'Momentum', 'Velocity'],
+      correct: 2,
+      explanation: 'De Broglie wavelength is inversely proportional to momentum.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/III_01.html',
+      image: '〰️'
+    },
+    {
+      id: 31, difficulty: 'medium', category: 'Quantum',
+      question: 'What does the wave function represent?',
+      answers: ['Particle position', 'Particle momentum', 'Probability amplitude', 'Energy level'],
+      correct: 2,
+      explanation: 'The wave function is a probability amplitude.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/III_01.html',
+      image: 'Ψ'
+    },
+    {
+      id: 32, difficulty: 'medium', category: 'Relativity',
+      question: 'Time dilation means moving clocks run how?',
+      answers: ['Faster', 'Slower', 'Same rate', 'Backwards'],
+      correct: 1,
+      explanation: 'Moving clocks run slower relative to stationary observers.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/I_15.html',
+      image: '⏰'
+    },
+    {
+      id: 33, difficulty: 'medium', category: 'Relativity',
+      question: 'Length contraction affects lengths in what direction?',
+      answers: ['All directions', 'Direction of motion', 'Perpendicular to motion', 'No direction'],
+      correct: 1,
+      explanation: 'Objects contract only in the direction of motion.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/I_15.html',
+      image: '↔️'
+    },
+    {
+      id: 34, difficulty: 'hard', category: 'Mechanics',
+      question: 'For uniform circular motion, acceleration points where?',
+      answers: ['Tangent to circle', 'Toward center', 'Away from center', 'Along velocity'],
+      correct: 1,
+      explanation: 'Acceleration is centripetal, pointing toward the center.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/I_09.html',
+      image: '⭕'
+    },
+    {
+      id: 35, difficulty: 'hard', category: 'Energy',
+      question: 'Work done by a force depends on what component?',
+      answers: ['Total force', 'Perpendicular component', 'Parallel component', '45 degree component'],
+      correct: 2,
+      explanation: 'Only the component parallel to displacement does work.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/I_13.html',
+      image: '🔨'
+    },
+    {
+      id: 36, difficulty: 'hard', category: 'Rotation',
+      question: 'Moment of inertia depends on what?',
+      answers: ['Independent of axis', 'Minimum about center', 'Mass distribution relative to axis', 'Always equals mr²'],
+      correct: 2,
+      explanation: 'Moment of inertia depends on mass distribution relative to the axis.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/I_18.html',
+      image: '🔄'
+    },
+    {
+      id: 37, difficulty: 'hard', category: 'Waves',
+      question: 'Smaller openings cause what to happen to diffraction?',
+      answers: ['Decreases', 'Increases', 'Stays constant', 'Depends on speed'],
+      correct: 1,
+      explanation: 'Smaller openings cause greater diffraction.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/I_30.html',
+      image: '🚪'
+    },
+    {
+      id: 38, difficulty: 'hard', category: 'Waves',
+      question: 'What happens to wave speed on a string if tension increases?',
+      answers: ['Decreases', 'Stays constant', 'Increases', 'Becomes zero'],
+      correct: 2,
+      explanation: 'Wave speed increases with tension.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/I_47.html',
+      image: '🎻'
+    },
+    {
+      id: 39, difficulty: 'hard', category: 'Sound',
+      question: 'When a source moves faster than sound speed, what forms?',
+      answers: ['Standing wave', 'Shock wave', 'Echo', 'Resonance'],
+      correct: 1,
+      explanation: 'A shock wave or sonic boom forms.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/I_51.html',
+      image: '✈️'
+    },
+    {
+      id: 40, difficulty: 'hard', category: 'E&M',
+      question: 'What is the significance of Gauss\'s Law?',
+      answers: ['Relates field to charge', 'Describes monopoles', 'Explains inductance', 'Defines capacitance'],
+      correct: 0,
+      explanation: 'Gauss\'s Law relates electric field to charge distribution.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/II_04.html',
+      image: '📐'
+    },
+    {
+      id: 41, difficulty: 'hard', category: 'E&M',
+      question: 'Maxwell\'s addition to Ampere\'s Law accounts for what?',
+      answers: ['Magnetic monopoles', 'Displacement current', 'Superconductivity', 'Quantum effects'],
+      correct: 1,
+      explanation: 'Maxwell added the displacement current term.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/II_18.html',
+      image: '🌐'
+    },
+    {
+      id: 42, difficulty: 'hard', category: 'E&M',
+      question: 'Energy stored in a capacitor is proportional to what?',
+      answers: ['U = CV', 'U = CV²', 'U = ½CV²', 'U = ½CV'],
+      correct: 2,
+      explanation: 'Energy in a capacitor is U = ½CV².',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/II_08.html',
+      image: '⚡'
+    },
+    {
+      id: 43, difficulty: 'hard', category: 'Thermodynamics',
+      question: 'Carnot efficiency depends on what?',
+      answers: ['Always 100%', 'Temperature difference', 'Always 50%', 'Fuel type'],
+      correct: 1,
+      explanation: 'Carnot efficiency depends on temperature difference.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/I_44.html',
+      image: '🏭'
+    },
+    {
+      id: 44, difficulty: 'hard', category: 'Thermodynamics',
+      question: 'What does the Boltzmann factor represent?',
+      answers: ['Total energy', 'Average energy', 'Relative probability', 'Entropy'],
+      correct: 2,
+      explanation: 'It gives relative probability of energy states.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/I_40.html',
+      image: '📊'
+    },
+    {
+      id: 45, difficulty: 'hard', category: 'Quantum',
+      question: 'The uncertainty principle limits knowledge of what pairs?',
+      answers: ['Position and momentum', 'Energy and time', 'Both of these', 'Neither'],
+      correct: 2,
+      explanation: 'Uncertainty applies to position-momentum and energy-time pairs.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/III_02.html',
+      image: '≥'
+    },
+    {
+      id: 46, difficulty: 'hard', category: 'Quantum',
+      question: 'What is quantum entanglement?',
+      answers: ['Particle collision', 'Wave interference', 'Correlated states', 'Energy transfer'],
+      correct: 2,
+      explanation: 'Entanglement creates correlations between particles.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/III_01.html',
+      image: '🔗'
+    },
+    {
+      id: 47, difficulty: 'hard', category: 'Quantum',
+      question: 'The Pauli exclusion principle states what?',
+      answers: ['Particles repel', 'No two fermions in same state', 'Bosons exclude fermions', 'Energy unique'],
+      correct: 1,
+      explanation: 'No two identical fermions can occupy the same quantum state.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/III_04.html',
+      image: '🚫'
+    },
+    {
+      id: 48, difficulty: 'hard', category: 'Relativity',
+      question: 'Events simultaneous in one frame are what in another?',
+      answers: ['Also simultaneous', 'Not simultaneous', 'Impossible to tell', 'Reversed in time'],
+      correct: 1,
+      explanation: 'Simultaneity is relative between reference frames.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/I_15.html',
+      image: '⏱️'
+    },
+    {
+      id: 49, difficulty: 'hard', category: 'Relativity',
+      question: 'As velocity approaches light speed, momentum does what?',
+      answers: ['Decreases', 'Stays constant', 'Increases without bound', 'Becomes negative'],
+      correct: 2,
+      explanation: 'Relativistic momentum increases without bound.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/I_15.html',
+      image: '∞'
+    },
+    {
+      id: 50, difficulty: 'hard', category: 'Relativity',
+      question: 'General relativity explains gravity as what?',
+      answers: ['A force', 'Spacetime curvature', 'Particle exchange', 'Action at distance'],
+      correct: 1,
+      explanation: 'Gravity is curvature of spacetime.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/I_42.html',
+      image: '🌌'
+    },
+    {
+      id: 51, difficulty: 'easy', category: 'Optics',
+      question: 'The law of reflection states what?',
+      answers: ['Incident equals refracted', 'Incident equals reflected', 'All 90 degrees', 'Sum to 180'],
+      correct: 1,
+      explanation: 'Angle of incidence equals angle of reflection.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/I_26.html',
+      image: '🪞'
+    },
+    {
+      id: 52, difficulty: 'medium', category: 'Optics',
+      question: 'Total internal reflection occurs when light travels from what to what?',
+      answers: ['Low to high index', 'High to low index', 'Same indices', 'Any direction'],
+      correct: 1,
+      explanation: 'Total internal reflection occurs from higher to lower refractive index.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/I_26.html',
+      image: '💎'
+    },
+    {
+      id: 53, difficulty: 'hard', category: 'Optics',
+      question: 'What fundamentally limits optical resolution?',
+      answers: ['Lens size only', 'Diffraction', 'Aberrations', 'Material quality'],
+      correct: 1,
+      explanation: 'Diffraction fundamentally limits resolution.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/I_30.html',
+      image: '🔭'
+    },
+    {
+      id: 54, difficulty: 'easy', category: 'E&M',
+      question: 'What does Ohm\'s Law relate?',
+      answers: ['Voltage, current, resistance', 'Power, energy, time', 'Charge, field, force', 'Frequency, wavelength, speed'],
+      correct: 0,
+      explanation: 'Ohm\'s Law: V = IR.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/II_22.html',
+      image: '💡'
+    },
+    {
+      id: 55, difficulty: 'easy', category: 'E&M',
+      question: 'In a series circuit, what is the same throughout?',
+      answers: ['Voltage', 'Current', 'Resistance', 'Power'],
+      correct: 1,
+      explanation: 'Current is the same in series circuits.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/II_22.html',
+      image: '🔌'
+    },
+    {
+      id: 56, difficulty: 'easy', category: 'Thermodynamics',
+      question: 'What is absolute zero?',
+      answers: ['0°C', '0°F', '0 K', '0 J'],
+      correct: 2,
+      explanation: 'Absolute zero is 0 Kelvin.',
+      learnMore: 'https://www.feynmanlectures.caltech.edu/I_39.html',
+      image: '❄️'
     }
   ];
 
