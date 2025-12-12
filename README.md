@@ -40,6 +40,31 @@ Four progressive physics challenges that build understanding from basic forces t
 - **Key Insight**: Constant speed ≠ constant velocity; acceleration always points toward center
 - **Learn More**: [Feynman Lectures Vol. I, Ch. 7](https://www.feynmanlectures.caltech.edu/I_07.html)
 
+### Astronomy Zone
+
+Three challenges exploring celestial mechanics and the cosmos:
+
+#### Astronomy Level 1: Orbital Mechanics
+- **Concept**: Kepler's laws and planetary orbits
+- **Interactive Controls**: Adjust orbital speed and radius
+- **Challenge**: Understand how orbital period depends on radius
+- **Key Insight**: T² ∝ a³; planets farther from the Sun take longer to orbit
+- **Learn More**: [Feynman Lectures Vol. I, Ch. 7](https://www.feynmanlectures.caltech.edu/I_07.html)
+
+#### Astronomy Level 2: Stellar Evolution
+- **Concept**: Stellar nucleosynthesis and the Hertzsprung-Russell diagram
+- **Interactive Controls**: Adjust stellar mass to see evolution stages
+- **Challenge**: Predict how stellar lifetime depends on mass
+- **Key Insight**: Massive stars burn fast and die young; low-mass stars live for billions of years
+- **Learn More**: [Feynman Lectures Vol. I, Ch. 42](https://www.feynmanlectures.caltech.edu/I_42.html)
+
+#### Astronomy Level 3: Gravitational Lensing
+- **Concept**: Spacetime curvature and light bending
+- **Interactive Controls**: Adjust lens mass and source distance
+- **Challenge**: Understand how mass affects light deflection
+- **Key Insight**: Massive objects curve spacetime; light follows curved paths, revealing dark matter
+- **Learn More**: [Feynman Lectures Vol. II, Ch. 42](https://www.feynmanlectures.caltech.edu/II_42.html)
+
 ## Getting Started
 
 ### Requirements
@@ -66,24 +91,33 @@ open PhysicsAdventure.xcodeproj
 
 ```
 PhysicsAdventure/
-├── PhysicsAdventureApp.swift          # App entry point
-├── ContentView.swift                  # Main menu with challenge selection
-├── MechanicsLevelView.swift           # Level 1: Ramp Simulator
-├── ProjectileChallenge.swift          # Level 2: Projectile Motion
-├── PendulumChallenge.swift            # Level 3: Pendulum Period
-├── CircularMotionChallenge.swift      # Level 4: Circular Motion
-├── Physics.swift                      # Physics calculations and utilities
-└── Assets.xcassets/                   # App icons and colors
+├── PhysicsAdventureApp.swift              # App entry point
+├── ContentView.swift                      # Main menu with challenge selection
+├── MechanicsLevelView.swift               # Mechanics Level 1: Ramp Simulator
+├── ProjectileChallenge.swift              # Mechanics Level 2: Projectile Motion
+├── PendulumChallenge.swift                # Mechanics Level 3: Pendulum Period
+├── CircularMotionChallenge.swift          # Mechanics Level 4: Circular Motion
+├── OrbitalMechanicsChallenge.swift        # Astronomy Level 1: Orbital Mechanics
+├── StellarEvolutionChallenge.swift        # Astronomy Level 2: Stellar Evolution
+├── GravitationalLensingChallenge.swift    # Astronomy Level 3: Gravitational Lensing
+├── Physics.swift                          # Physics calculations and utilities
+└── Assets.xcassets/                       # App icons and colors
 ```
 
 ## Physics Engine
 
 The app uses simplified physics models to make concepts clear:
 
+**Mechanics:**
 - **Incline Acceleration**: `a = g(sin θ - μ cos θ)`
 - **Projectile Motion**: Standard kinematic equations with constant acceleration
 - **Pendulum**: Small-angle approximation for simple harmonic motion
 - **Circular Motion**: Centripetal acceleration `a_c = v²/r`
+
+**Astronomy:**
+- **Orbital Mechanics**: Kepler's third law `T² ∝ a³` and gravitational force
+- **Stellar Evolution**: Mass-luminosity relation `L ∝ M^3.5` and lifetime scaling
+- **Gravitational Lensing**: Light deflection angle proportional to lens mass
 
 All simulations run at 60 FPS for smooth real-time visualization.
 
@@ -97,12 +131,22 @@ Following Feynman's teaching approach:
 
 ## Future Enhancements
 
+**Additional Physics Zones:**
 - Wave Realm: Interference, diffraction, and wave properties
 - Electromagnet Island: Electric fields, magnetic forces, and circuits
 - Thermodynamics Zone: Heat, entropy, and statistical mechanics
 - Quantum Realm: Probability, uncertainty, and quantum behavior
+
+**Astronomy Expansions:**
+- Exoplanet Detection: Transit method and radial velocity
+- Cosmic Expansion: Hubble's law and the expanding universe
+- Black Holes: Event horizons and spacetime singularities
+
+**App Features:**
 - Progress tracking and achievement system
-- Multiplayer challenges
+- Multiplayer challenges and leaderboards
+- Data export for research and education
+- Accessibility improvements
 
 ## Contributing
 
